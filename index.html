@@ -74,7 +74,9 @@
             visibility: hidden;
         }
         #preloader-logo {
-            max-width: 250px;
+            width: 80%; /* Aumentado drásticamente */
+            max-width: 600px; /* Límite para pantallas grandes */
+            height: auto; /* Asegura la proporción */
             margin-bottom: 1.5rem;
         }
         #preloader-bar-container {
@@ -290,10 +292,8 @@
     <header class="relative border-b border-gray-800"> <!-- Añadido 'relative' para posicionar el menú móvil -->
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <!-- Logo -->
-            <a href="#" class="nav-link flex items-center gap-3" data-page="inicio" aria-label="Ir al inicio">
-                <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763235986/logo_sin_fondo_ce5wo6.png" alt="Monograma Mariana Alexander" class="h-10 md:h-12 w-auto">
-                <img src="image_494e0e.png" alt="Mariana Alexander" class="h-8 md:h-10"
-                     onerror="this.src='https://placehold.co/150x50/0a0a0a/CAA472?text=Mariana+Alexander&font=playfair';" />
+            <a href="#" class="nav-link" data-page="inicio" aria-label="Ir al inicio">
+                <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763235986/logo_sin_fondo_ce5wo6.png" alt="Monograma Mariana Alexander" class="h-16 md:h-24 w-auto"> <!-- Tamaño aumentado de h-14 md:h-20 -->
             </a>
 
             <!-- Navegación Desktop -->
@@ -771,10 +771,8 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
                 <!-- Col 1: Logo e Info -->
                 <div class="md:col-span-1">
-                    <div class="flex items-center gap-3 mb-4">
-                        <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763235986/logo_sin_fondo_ce5wo6.png" alt="Monograma Mariana Alexander" class="h-12 w-auto">
-                        <img src="image_494e0e.png" alt="Logo Mariana Alexander" class="h-10"
-                             onerror="this.src='https://placehold.co/150x50/1a1a1a/CAA472?text=Mariana+Alexander&font=playfair';" />
+                    <div class="mb-4">
+                        <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763235986/logo_sin_fondo_ce5wo6.png" alt="Monograma Mariana Alexander" class="h-24 w-auto"> <!-- Tamaño aumentado de h-20 -->
                     </div>
                     <p class="text-gray-400 text-sm max-w-xs">
                         Diseño y confección de Alta Costura en Cañuelas, Buenos Aires.
