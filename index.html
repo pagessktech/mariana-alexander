@@ -233,6 +233,14 @@
             opacity: 1;
         }
 
+        /* CORRECCIÓN: Estilos para Formulario */
+        #contacto form input[type="text"],
+        #contacto form input[type="email"],
+        #contacto form input[type="tel"],
+        #contacto form textarea {
+            background-color: var(--dark-bg);
+        }
+
         /* Estilos Menú Móvil */
         #mobile-menu {
             transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; /* Añadido padding a la transición */
@@ -778,22 +786,22 @@
                             <div>
                                 <label for="name" class="block text-sm font-semibold text-white">Nombre</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
                                 <input type="text" name="name" id="name" required
-                                       class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold">
+                                       class="mt-1 block w-full border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold"> <!-- 'bg-dark-bg' eliminado -->
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-semibold text-white">Email</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
                                 <input type="email" name="email" id="email" required
-                                       class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold">
+                                       class="mt-1 block w-full border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold"> <!-- 'bg-dark-bg' eliminado -->
                             </div>
                             <div>
                                 <label for="phone" class="block text-sm font-semibold text-white">Teléfono (Opcional)</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
                                 <input type="tel" name="phone" id="phone"
-                                       class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold">
+                                       class="mt-1 block w-full border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold"> <!-- 'bg-dark-bg' eliminado -->
                             </div>
                             <div>
                                 <label for="message" class="block text-sm font-semibold text-white">Tu Mensaje</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
                                 <textarea name="message" id="message" rows="5" required
-                                          class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold"></textarea>
+                                          class="mt-1 block w-full border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold"></textarea> <!-- 'bg-dark-bg' eliminado -->
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-gold w-full">Enviar Mensaje</button>
