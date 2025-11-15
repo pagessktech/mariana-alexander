@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valeria Alexander - Alta Costura</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons (REMOVED as SVGs are inline) -->
+    <!-- <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script> -->
+
+    <!-- Google Fonts: Playfair Display (serif) y Inter (sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CRITICAL LAYOUT RULES --- */
+        /* Ocultar "páginas" por defecto y mostrar la activa */
+        .page-section {
+            display: none !important; /* Forzar ocultar */
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .page-section.active {
+            display: block !important; /* Forzar mostrar */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* --- END CRITICAL LAYOUT --- */
+
+        /* Tipografía personalizada */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a; /* Un negro ligeramente más suave */
+            color: #e0e0e0;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Color de acento (un dorado/champagne sofisticado) */
+        :root {
+            --gold-color: #CAA472;
+            --dark-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+        }
+
+        .text-gold { color: var(--gold-color); }
+        .bg-gold { background-color: var(--gold-color); }
+        .border-gold { border-color: var(--gold-color); }
+
+        /* Estilos del Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-bg);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        #preloader-logo {
+            max-width: 250px;
+            margin-bottom: 1.5rem;
+        }
+        #preloader-bar-container {
+            width: 200px;
+            height: 3px;
+            background-color: var(--secondary-bg);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        #preloader-bar {
+            width: 0;
+            height: 100%;
+            background-color: var(--gold-color);
+            border-radius: 3px;
+            animation: loading 2.5s ease-out forwards;
+        }
+
+        /* Añadido: Keyframes para la animación de carga */
+        @keyframes loading {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        /* Ocultar "páginas" por defecto y mostrar la activa */
+        /* MOVIDO AL INICIO DEL <style> Y CON !important */
+
+        /* Estilos para el Header Fijo */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Animaciones de Scroll (Reveal) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Estilos de Botones Premium */
+        .btn {
+            padding-left: 1.5rem; /* px-6 */
+            padding-right: 1.5rem; /* px-6 */
+            padding-top: 0.75rem; /* py-3 */
+            padding-bottom: 0.75rem; /* py-3 */
+            border-radius: 0.375rem; /* rounded-md */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            transition-property: all;
+            transition-timing-function: ease-in-out;
+            transition-duration: 300ms;
+        }
+        .btn-gold {
+            background-color: var(--gold-color);
+            color: #000;
+        }
+        .btn-gold:hover {
+            filter: brightness(0.95); /* Simula hover:bg-opacity-80 */
+        }
+        .btn-outline {
+            border: 1px solid var(--gold-color);
+            color: var(--gold-color);
+        }
+        .btn-outline:hover {
+            background-color: var(--gold-color);
+            color: #000;
+        }
+        
+        /* Estilos de botones flotantes */
+        .floating-btn {
+            position: fixed;
+            width: 3.5rem; /* w-14 */
+            height: 3.5rem; /* h-14 */
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition-property: all;
+            transition-duration: 300ms;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Estilos Acordeón FAQ */
+        .faq-question {
+            cursor: pointer;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+        }
+        .faq-item.active .faq-answer {
+            /* max-height: 300px; */ /* ELIMINADO: Esta línea causaba el corte. El JS lo maneja. */
+            /* padding-top: 1rem; */ /* Movido al div interno */
+            /* padding-bottom: 1rem; */ /* Movido al div interno */
+        }
+        /* Contenedor interno para el padding, soluciona el cálculo de altura */
+        .faq-answer-content {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        /* Estilos del Carrusel Hero */
+        .hero-carousel-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Detrás del overlay y texto */
+        }
+        .hero-carousel-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out; /* Transición de fade */
+        }
+        .hero-carousel-slide.active-slide {
+            opacity: 1;
+        }
+
+        /* Estilos del Carrusel de Servicios */
+        .service-carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.0s ease-in-out; /* Un poco más rápido que el hero */
+        }
+        .service-carousel-slide.active-slide {
+            opacity: 1;
+        }
+
+        /* Estilos Menú Móvil */
+        #mobile-menu {
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; /* Añadido padding a la transición */
+            max-height: 0;
+            overflow: hidden;
+            padding-top: 0; /* Asegurar que no hay padding al estar cerrado */
+            padding-bottom: 0; /* Asegurar que no hay padding al estar cerrado */
+        }
+        #mobile-menu.active {
+            max-height: 500px !important; /* Alto máximo para la animación */
+            padding-top: 1rem;    /* Re-aplica el py-4 */
+            padding-bottom: 1rem; /* Re-aplica el py-4 */
+        }
+
+        /* Para el scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg text-gray-300">
+
+    <!-- ===== PRELOADER ===== -->
+    <div id="preloader">
+        <img src="image_494e0e.png" alt="Logo Valeria Alexander" id="preloader-logo"
+             onerror="this.src='https://placehold.co/300x100/0a0a0a/CAA472?text=Valeria+Alexander+-+Alta+Costura&font=playfair';" />
+        <div id="preloader-bar-container">
+            <div id="preloader-bar"></div>
+        </div>
+    </div>
+
+    <!-- ===== BOTONES FLOTANTES ===== -->
+    <!-- WhatsApp -->
+    <a href="https://wa.me/5492226409625" target="_blank" rel="noopener noreferrer" 
+       class="floating-btn bg-green-500 text-white right-6 bottom-6 hover:bg-green-600"
+       aria-label="Contactar por WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 6.02a9 9 0 0 1 0 11.9_m_-6.1-6.1a9 9 0 0 1 11.9 0_M16.88 3.12a14 14 0 0 1 0 17.76_m_-9.76-9.76a14 14 0 0 1 17.76 0"></path></svg>
+    </a>
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/mariana.alexander.alta.costura/" target="_blank" rel="noopener noreferrer" 
+       class="floating-btn bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 text-white right-6 bottom-24 hover:opacity-90"
+       aria-label="Ver perfil de Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+    </a>
+
+    <!-- ===== HEADER ===== -->
+    <header class="relative border-b border-gray-800"> <!-- Añadido 'relative' para posicionar el menú móvil -->
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="nav-link" data-page="inicio" aria-label="Ir al inicio">
+                <img src="image_494e0e.png" alt="Logo Valeria Alexander" class="h-10 md:h-12"
+                     onerror="this.src='https://placehold.co/150x50/0a0a0a/CAA472?text=Valeria+Alexander&font=playfair';" />
+            </a>
+
+            <!-- Navegación Desktop -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="nav-link text-gray-300 hover:text-gold transition-colors" data-page="inicio">Inicio</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold transition-colors" data-page="sobre-mi">Sobre Mí</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold transition-colors" data-page="servicios">Servicios</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold transition-colors" data-page="testimonios">Testimonios</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold transition-colors" data-page="faq">Preguntas</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold transition-colors" data-page="contacto">Contacto</a>
+            </nav>
+            
+            <!-- Botón Menú Móvil -->
+            <button id="mobile-menu-btn" class="md:hidden z-50 border border-gray-600 rounded-md p-1.5 transition-colors focus:border-gold">
+                <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        
+        <!-- Navegación Móvil -->
+        <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-dark-bg z-40 flex flex-col items-center space-y-4 border-b border-gray-800" style="max-height: 0;"> <!-- CORRECCIÓN: 'py-4' ELIMINADO de las clases -->
+            <a href="#" class="nav-link text-lg font-serif text-gray-300 hover:text-gold transition-colors" data-page="inicio">Inicio</a>
+            <a href="#" class="nav-link text-lg font-serif text-gray-300 hover:text-gold transition-colors" data-page="sobre-mi">Sobre Mí</a>
+            <a href="#" class="nav-link text-lg font-serif text-gray-300 hover:text-gold transition-colors" data-page="servicios">Servicios</a>
+            <a href="#" class="nav-link text-lg font-serif text-gray-300 hover:text-gold transition-colors" data-page="testimonios">Testimonios</a>
+            <a href="#" class="nav-link text-lg font-serif text-gray-300 hover:text-gold transition-colors" data-page="faq">Preguntas</a>
+            <a href="#" class="nav-link text-lg font-serif text-gray-300 hover:text-gold transition-colors" data-page="contacto">Contacto</a>
+        </div>
+    </header>
+
+    <!-- ===== CONTENEDOR PRINCIPAL DE PÁGINAS ===== -->
+    <main>
+
+        <!-- ===== PÁGINA: INICIO (HERO) ===== -->
+        <section id="inicio" class="page-section active">
+            <div class="h-[calc(100vh-80px)] min-h-[600px] relative flex items-center justify-center text-center">
+                <!-- Carrusel de Imágenes de fondo -->
+                <div class="hero-carousel-container">
+                    <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/15_qimu1b.jpg" 
+                         alt="Vestido de alta costura 1" 
+                         class="hero-carousel-slide">
+                    <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224842/2_tzmcwe.jpg" 
+                         alt="Vestido de alta costura 2" 
+                         class="hero-carousel-slide">
+                    <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224842/3_olvvao.jpg" 
+                         alt="Vestido de alta costura 3" 
+                         class="hero-carousel-slide">
+                    <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224842/13_zd7oua.jpg" 
+                         alt="Vestido de alta costura 4" 
+                         class="hero-carousel-slide">
+                    <!-- Nuevas imágenes añadidas -->
+                    <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224843/14_eizn4m.jpg" 
+                         alt="Vestido de alta costura 5" 
+                         class="hero-carousel-slide">
+                    <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224845/20_tfjoq9.jpg" 
+                         alt="Vestido de alta costura 6" 
+                         class="hero-carousel-slide">
+                    <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/8_m7fxpc.jpg" 
+                         alt="Vestido de alta costura 7" 
+                         class="hero-carousel-slide">
+                </div>
+
+                <!-- Overlay oscuro -->
+                <div class="absolute inset-0 bg-black/70 z-10"></div>
+                
+                <!-- Contenido Hero -->
+                <div class="relative z-20 px-6 reveal visible">
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 leading-tight">
+                        Diseños Únicos,<br class="hidden md:block"> Momentos Inolvidables
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+                        Alta Costura en Cañuelas. Hacemos realidad el vestido de tus sueños, 
+                        confeccionado exclusivamente para vos.
+                    </p>
+                    <a href="#" class="btn btn-outline nav-link" data-page="servicios">Descubrí Mis Servicios</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PÁGINA: SOBRE MÍ ===== -->
+        <section id="sobre-mi" class="page-section py-20 md:py-32" style="display: none;">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+                    <!-- Imagen -->
+                    <div class="w-full md:w-1/2 reveal">
+                        <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224843/4_pbl57s.jpg" 
+                             alt="Retrato de Valeria Alexander trabajando en su atelier" 
+                             class="rounded-lg shadow-xl object-cover w-full h-full"
+                             onerror="this.src='https://placehold.co/600x800/2a2a2a/777?text=Retrato+Profesional';"/>
+                    </div>
+                    <!-- Texto -->
+                    <div class="w-full md:w-1/2 reveal">
+                        <span class="text-sm font-semibold text-gold tracking-widest uppercase">Sobre Mí</span>
+                        <h2 class="text-4xl md:text-5xl font-serif text-white my-4">Mi Pasión, Tu Vestido</h2>
+                        <p class="text-lg text-gray-400 mb-6">
+                            Hola, soy Valeria Alexander. Desde mi atelier en Cañuelas, me dedico a 
+                            transformar telas e hilos en piezas de arte que cuentan tu historia. 
+                        </p>
+                        <p class="text-gray-400 mb-6">
+                            Con años de experiencia en el diseño y la confección de Alta Costura, 
+                            mi misión es acompañarte en los momentos más importantes de tu vida, 
+                            asegurando que te sientas única, cómoda y radiante.
+                        </p>
+                        <p class="text-gray-400 mb-8">
+                            Cada vestido es un proyecto de amor, cuidado en cada detalle, 
+                            desde el primer boceto hasta la última puntada.
+                        </p>
+                        <a href="#" class="btn btn-gold nav-link" data-page="contacto">Agendá una Cita</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PÁGINA: SERVICIOS ===== -->
+        <section id="servicios" class="page-section py-20 md:py-32 bg-secondary-bg" style="display: none;">
+            <div class="container mx-auto px-6">
+                <!-- Título -->
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="text-sm font-semibold text-gold tracking-widest uppercase">Servicios</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white my-4">Confección a Medida</h2>
+                    <p class="text-lg text-gray-400">
+                        Creaciones exclusivas para tus eventos más especiales, 
+                        diseñadas y confeccionadas con la más alta calidad.
+                    </p>
+                </div>
+                
+                <!-- Grid de Servicios -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Servicio 1: Novias -->
+                    <div class="bg-dark-bg p-8 rounded-lg shadow-xl reveal transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                        <!-- CORRECCIÓN: Reemplazo de SVG por Carrusel -->
+                        <div class="service-carousel-container relative w-full h-80 mb-6 overflow-hidden rounded-md"> <!-- CAMBIO: de h-48 a h-80 -->
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/11_pgtr56.jpg" 
+                                 alt="Vestido de novia 1" 
+                                 class="service-carousel-slide service-carousel-novias">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/16_ctu1uo.jpg" 
+                                 alt="Vestido de novia 2" 
+                                 class="service-carousel-slide service-carousel-novias">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/19_cnpo5y.jpg" 
+                                 alt="Vestido de novia 3" 
+                                 class="service-carousel-slide service-carousel-novias">
+                        </div>
+                        <!-- FIN Carrusel -->
+
+                        <h3 class="text-2xl font-serif text-white mb-3">Novias</h3>
+                        <p class="text-gray-400 mb-5">
+                            El vestido que siempre soñaste, hecho realidad. 
+                            Diseños que capturan tu esencia y celebran tu amor.
+                        </p>
+                        <a href="#" class="text-gold font-medium hover:text-white transition-colors nav-link" data-page="contacto">
+                            Consultar 
+                            <span class="ml-1">&rarr;</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Servicio 2: 15 Años -->
+                    <div class="bg-dark-bg p-8 rounded-lg shadow-xl reveal transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]" style="transition-delay: 200ms;">
+                        <!-- CORRECCIÓN: Reemplazo de SVG por Carrusel -->
+                        <div class="service-carousel-container relative w-full h-80 mb-6 overflow-hidden rounded-md">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224842/13_zd7oua.jpg" 
+                                 alt="Vestido de 15 años 1" 
+                                 class="service-carousel-slide service-carousel-quince">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/9_r0elon.jpg" 
+                                 alt="Vestido de 15 años 2" 
+                                 class="service-carousel-slide service-carousel-quince">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/18_vbt3lt.jpg" 
+                                 alt="Vestido de 15 años 3" 
+                                 class="service-carousel-slide service-carousel-quince">
+                        </div>
+                        <!-- FIN Carrusel -->
+
+                        <h3 class="text-2xl font-serif text-white mb-3">15 Años</h3>
+                        <p class="text-gray-400 mb-5">
+                            Diseños mágicos y modernos para que brilles en tu noche. 
+                            Creá un look inolvidable.
+                        </p>
+                        <a href="#" class="text-gold font-medium hover:text-white transition-colors nav-link" data-page="contacto">
+                            Consultar 
+                            <span class="ml-1">&rarr;</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Servicio 3: Fiesta / Madrinas -->
+                    <div class="bg-dark-bg p-8 rounded-lg shadow-xl reveal transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]" style="transition-delay: 400ms;">
+                        <!-- CORRECCIÓN: Reemplazo de SVG por Carrusel -->
+                        <div class="service-carousel-container relative w-full h-80 mb-6 overflow-hidden rounded-md">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224843/5_jy8kis.jpg" 
+                                 alt="Vestido de fiesta 1" 
+                                 class="service-carousel-slide service-carousel-fiestas">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224843/7_jk4dz3.jpg" 
+                                 alt="Vestido de fiesta 2" 
+                                 class="service-carousel-slide service-carousel-fiestas">
+                            <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763224844/6_xwecno.jpg" 
+                                 alt="Vestido de fiesta 3" 
+                                 class="service-carousel-slide service-carousel-fiestas">
+                        </div>
+                        <!-- FIN Carrusel -->
+
+                        <h3 class="text-2xl font-serif text-white mb-3">Fiestas y Eventos</h3>
+                        <p class="text-gray-400 mb-5">
+                            Elegancia y sofisticación para cualquier evento. 
+                            Asesoramiento personal y diseños exclusivos.
+                        </p>
+                        <a href="#" class="text-gold font-medium hover:text-white transition-colors nav-link" data-page="contacto">
+                            Consultar 
+                            <span class="ml-1">&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PÁGINA: BENEFICIOS (EL PROCESO) ===== -->
+        <section id="proceso" class="page-section py-20 md:py-32" style="display: none;">
+            <div class="container mx-auto px-6">
+                <!-- Título -->
+                <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                    <span class="text-sm font-semibold text-gold tracking-widest uppercase">El Proceso</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white my-4">Tu Experiencia de Alta Costura</h2>
+                    <p class="text-lg text-gray-400">
+                        Un viaje personalizado en cuatro pasos hacia el vestido perfecto.
+                    </p>
+                </div>
+
+                <!-- Timeline del Proceso -->
+                <div class="relative">
+                    <!-- Línea de tiempo -->
+                    <div class="absolute left-1/2 -ml-px h-full w-0.5 bg-gray-700 hidden md:block"></div>
+
+                    <!-- Paso 1 -->
+                    <div class="flex flex-col md:flex-row items-center mb-16 reveal">
+                        <div class="md:w-1/2 md:pr-10 md:text-right">
+                            <span class="text-5xl font-serif text-gold opacity-50">01</span>
+                            <h3 class="text-3xl font-serif text-white my-3">Consulta y Diseño</h3>
+                            <p class="text-gray-400">
+                                Comenzamos con una charla para conocerte, entender tus ideas y tu estilo. 
+                                Juntas, creamos un boceto único que refleje tu personalidad.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 md:pl-10 mt-6 md:mt-0">
+                            <img src="https://placehold.co/600x400/2a2a2a/777?text=Bocetos+y+Telas" alt="Bocetos de diseño" class="rounded-lg shadow-xl"
+                                 onerror="this.src='https://placehold.co/600x400/2a2a2a/777?text=Bocetos+y+Telas';"/>
+                        </div>
+                    </div>
+
+                    <!-- Paso 2 -->
+                    <div class="flex flex-col md:flex-row-reverse items-center mb-16 reveal">
+                        <div class="md:w-1/2 md:pl-10 md:text-left">
+                            <span class="text-5xl font-serif text-gold opacity-50">02</span>
+                            <h3 class="text-3xl font-serif text-white my-3">Selección de Materiales</h3>
+                            <p class="text-gray-400">
+                                Te presento una cuidada selección de telas, encajes y apliques 
+                                de la más alta calidad para que elijas tus favoritos.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 md:pr-10 mt-6 md:mt-0">
+                            <img src="https://placehold.co/600x400/2a2a2a/777?text=Selecci%C3%B3n+de+Telas" alt="Muestras de telas" class="rounded-lg shadow-xl"
+                                 onerror="this.src='https://placehold.co/600x400/2a2a2a/777?text=Muestras+de+Telas';"/>
+                        </div>
+                    </div>
+                    
+                    <!-- Paso 3 -->
+                    <div class="flex flex-col md:flex-row items-center mb-16 reveal">
+                        <div class="md:w-1/2 md:pr-10 md:text-right">
+                            <span class="text-5xl font-serif text-gold opacity-50">03</span>
+                            <h3 class="text-3xl font-serif text-white my-3">Pruebas y Ajustes</h3>
+                            <p class="text-gray-400">
+                                El momento de la verdad. Realizamos varias pruebas para asegurar 
+                                un calce perfecto y ajustar cada detalle a tu cuerpo y tu gusto.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 md:pl-10 mt-6 md:mt-0">
+                            <img src="https://placehold.co/600x400/2a2a2a/777?text=Prueba+de+Vestido" alt="Prueba de vestido" class="rounded-lg shadow-xl"
+                                 onerror="this.src='https://placehold.co/600x400/2a2a2a/777?text=Prueba+de+Vestido';"/>
+                        </div>
+                    </div>
+                    
+                    <!-- Paso 4 -->
+                    <div class="flex flex-col md:flex-row-reverse items-center reveal">
+                        <div class="md:w-1/2 md:pl-10 md:text-left">
+                            <span class="text-5xl font-serif text-gold opacity-50">04</span>
+                            <h3 class="text-3xl font-serif text-white my-3">Entrega Final</h3>
+                            <p class="text-gray-400">
+                                Tu vestido está listo. Te lo entrego perfectamente terminado, 
+                                listo para que brilles en tu gran día.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 md:pr-10 mt-6 md:mt-0">
+                            <img src="https://placehold.co/600x400/2a2a2a/777?text=Vestido+Terminado" alt="Vestido terminado" class="rounded-lg shadow-xl"
+                                 onerror="this.src='https://placehold.co/600x400/2a2a2a/777?text=Vestido+Terminado';"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PÁGINA: TESTIMONIOS ===== -->
+        <section id="testimonios" class="page-section py-20 md:py-32 bg-secondary-bg" style="display: none;">
+            <div class="container mx-auto px-6">
+                <!-- Título -->
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="text-sm font-semibold text-gold tracking-widest uppercase">Testimonios</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white my-4">Clientas Felices</h2>
+                </div>
+
+                <!-- Grid de Testimonios -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Testimonio 1 -->
+                    <div class="bg-dark-bg p-8 rounded-lg shadow-xl reveal flex flex-col justify-between">
+                        <div class="flex mb-4">
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <p class="text-lg text-gray-300 italic mb-6">
+                            "Mariana no solo diseñó mi vestido de novia, diseñó el vestido de mis sueños. 
+                            La paciencia y el amor que le pone a su trabajo no tienen nombre. ¡Gracias!"
+                        </p>
+                        <span class="font-semibold text-white uppercase tracking-wider">— Ana G. (Novia)</span>
+                    </div>
+
+                    <!-- Testimonio 2 -->
+                    <div class="bg-dark-bg p-8 rounded-lg shadow-xl reveal flex flex-col justify-between" style="transition-delay: 200ms;">
+                        <div class="flex mb-4">
+                            <!-- Estrellas -->
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <p class="text-lg text-gray-300 italic mb-6">
+                            "¡Mi vestido de 15 fue un sueño! Todos me preguntaban dónde lo había hecho. 
+                            Me sentí una princesa total. Gracias, Mari."
+                        </p>
+                        <span class="font-semibold text-white uppercase tracking-wider">— Sofía M. (15 Años)</span>
+                    </div>
+                    
+                    <!-- Testimonio 3 -->
+                    <div class="bg-dark-bg p-8 rounded-lg shadow-xl reveal flex flex-col justify-between" style="transition-delay: 400ms;">
+                        <div class="flex mb-4">
+                            <!-- Estrellas -->
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <p class="text-lg text-gray-300 italic mb-6">
+                            "Soy madrina y Mariana me hizo un vestido increíble. Súper elegante, 
+                            cómodo y exactamente lo que había imaginado. Su atención al detalle es impecable."
+                        </p>
+                        <span class="font-semibold text-white uppercase tracking-wider">— Claudia R. (Madrina)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PÁGINA: FAQ (PREGUNTAS FRECUENTES) ===== -->
+        <section id="faq" class="page-section py-20 md:py-32" style="display: none;">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <!-- Título -->
+                <div class="text-center mb-16 reveal">
+                    <span class="text-sm font-semibold text-gold tracking-widest uppercase">FAQ</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white my-4">Preguntas Frecuentes</h2>
+                </div>
+
+                <!-- Acordeón -->
+                <div class="space-y-6 reveal">
+                    <!-- Pregunta 1 -->
+                    <div class="faq-item border-b border-gray-700">
+                        <div class="faq-question flex justify-between items-center py-6">
+                            <h4 class="text-xl font-medium text-white">¿Con cuánta anticipación debo encargar mi vestido?</h4>
+                            <svg class="faq-icon text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer text-gray-400">
+                            <div class="faq-answer-content"> <!-- CORRECCIÓN: Wrapper para el padding -->
+                                Para vestidos de novia y 15 años, recomiendo un mínimo de 6 a 8 meses de anticipación. 
+                                Para vestidos de fiesta, 2 a 3 meses suele ser suficiente. Esto nos da 
+                                el tiempo necesario para el diseño, la confección y las pruebas sin apuros.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pregunta 2 -->
+                    <div class="faq-item border-b border-gray-700">
+                        <div class="faq-question flex justify-between items-center py-6">
+                            <h4 class="text-xl font-medium text-white">¿Puedo traer mi propio diseño o ideas?</h4>
+                            <svg class="faq-icon text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer text-gray-400">
+                            <div class="faq-answer-content"> <!-- CORRECCIÓN: Wrapper para el padding -->
+                                ¡Claro que sí! Me encanta co-crear. Podés traer fotos de inspiración, 
+                                bocetos o simplemente una idea. Juntas le daremos forma y la 
+                                adaptaremos a tu estilo y cuerpo para crear algo único.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pregunta 3 -->
+                    <div class="faq-item border-b border-gray-700">
+                        <div class="faq-question flex justify-between items-center py-6">
+                            <h4 class="text-xl font-medium text-white">¿Cuántas pruebas de vestido se necesitan?</h4>
+                            <svg class="faq-icon text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer text-gray-400">
+                            <div class="faq-answer-content"> <!-- CORRECCIÓN: Wrapper para el padding -->
+                                Generalmente, realizamos entre 3 y 4 pruebas. La primera es una prueba 
+                                inicial (toile) para ajustar el molde, seguida de pruebas con la tela 
+                                definitiva para perfeccionar el calce y los detalles.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pregunta 4 -->
+                    <div class="faq-item border-b border-gray-700">
+                        <div class="faq-question flex justify-between items-center py-6">
+                            <h4 class="text-xl font-medium text-white">¿Cuál es el rango de precios?</h4>
+                            <svg class="faq-icon text-gold" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer text-gray-400">
+                            <div class="faq-answer-content"> <!-- CORRECCIÓN: Wrapper para el padding -->
+                                Dado que cada vestido es una pieza única de Alta Costura, el precio 
+                                varía según la complejidad del diseño, las telas elegidas y las 
+                                horas de trabajo artesanal (bordados, apliques). Te invito a agendar 
+                                una cita sin costo para charlar sobre tu idea y armar un presupuesto a medida.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PÁGINA: CONTACTO ===== -->
+        <section id="contacto" class="page-section py-20 md:py-32" style="display: none;">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row gap-16">
+                    <!-- Info Contacto -->
+                    <div class="w-full md:w-1/2 reveal">
+                        <span class="text-sm font-semibold text-gold tracking-widest uppercase">Contacto</span>
+                        <h2 class="text-4xl md:text-5xl font-serif text-white my-4">Hagamos Realidad Tu Vestido</h2>
+                        <p class="text-lg text-gray-400 mb-8">
+                            Estoy en Cañuelas, Buenos Aires. La mejor forma de empezar es 
+                            agendando una cita previa en el atelier.
+                            ¡Espero tu mensaje!
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-secondary-bg rounded-full flex items-center justify-center border border-gray-700">
+                                    <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-white text-lg font-semibold">WhatsApp</h4>
+                                    <a href="https://wa.me/5492226409625" class="text-gray-400 hover:text-gold transition-colors">+54 9 2226 409625</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-secondary-bg rounded-full flex items-center justify-center border border-gray-700">
+                                    <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-white text-lg font-semibold">Instagram</h4>
+                                    <a href="https://www.instagram.com/mariana.alexander.alta.costura/" class="text-gray-400 hover:text-gold transition-colors">@mariana.alexander.alta.costura</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-secondary-bg rounded-full flex items-center justify-center border border-gray-700">
+                                    <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2h-3.3a8 8 0 0 0-1.6-4.9A2 2 0 0 0 12 0v10a2 2 0 0 1-2 2H3a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4.5a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h3.3a8 8 0 0 0 7.2-4.9 2 2 0 0 0 .1-2.1Z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-white text-lg font-semibold">TikTok</h4>
+                                    <a href="https://www.tiktok.com/@marianaalexanderaltacost" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gold transition-colors">@marianaalexanderaltacost</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-secondary-bg rounded-full flex items-center justify-center border border-gray-700">
+                                    <svg class="text-gold" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-white text-lg font-semibold">Atelier</h4>
+                                    <p class="text-gray-400">Cañuelas, Buenos Aires (Dirección por privado)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Formulario de Contacto (simulado) -->
+                    <div class="w-full md:w-1/2 bg-secondary-bg p-8 md:p-12 rounded-lg shadow-xl reveal">
+                        <h3 class="text-2xl font-serif text-white mb-6">Enviame tu consulta</h3>
+                        <form action="#" method="POST" class="space-y-6" onsubmit="event.preventDefault(); showFormSuccess();">
+                            <div>
+                                <label for="name" class="block text-sm font-semibold text-white">Nombre</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
+                                <input type="text" name="name" id="name" required
+                                       class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-white">Email</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
+                                <input type="email" name="email" id="email" required
+                                       class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-semibold text-white">Teléfono (Opcional)</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
+                                <input type="tel" name="phone" id="phone"
+                                       class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-semibold text-white">Tu Mensaje</label> <!-- CORRECCIÓN: Clases cambiadas para más contraste -->
+                                <textarea name="message" id="message" rows="5" required
+                                          class="mt-1 block w-full bg-dark-bg border border-gray-700 rounded-md py-3 px-4 text-white focus:border-gold focus:ring-gold"></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-gold w-full">Enviar Mensaje</button>
+                            </div>
+                            <p id="form-success" class="text-green-400 text-center" style="display: none;">¡Mensaje enviado con éxito!</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-secondary-bg border-t border-gray-800 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Col 1: Logo e Info -->
+                <div class="md:col-span-1">
+                    <img src="image_494e0e.png" alt="Logo Valeria Alexander" class="h-12 mb-4"
+                         onerror="this.src='https://placehold.co/150x50/1a1a1a/CAA472?text=Valeria+Alexander&font=playfair';" />
+                    <p class="text-gray-400 text-sm max-w-xs">
+                        Diseño y confección de Alta Costura en Cañuelas, Buenos Aires.
+                    </p>
+                </div>
+                
+                <!-- Col 2: Navegación -->
+                <div>
+                    <h5 class="text-white font-semibold tracking-wider uppercase mb-4">Navegación</h5>
+                    <nav class="flex flex-col space-y-3">
+                        <a href="#" class="nav-link text-gray-400 hover:text-gold transition-colors" data-page="inicio">Inicio</a>
+                        <a href="#" class="nav-link text-gray-400 hover:text-gold transition-colors" data-page="sobre-mi">Sobre Mí</a>
+                        <a href="#" class="nav-link text-gray-400 hover:text-gold transition-colors" data-page="servicios">Servicios</a>
+                        <a href="#" class="nav-link text-gray-400 hover:text-gold transition-colors" data-page="testimonios">Testimonios</a>
+                        <a href="#" class="nav-link text-gray-400 hover:text-gold transition-colors" data-page="faq">Preguntas</a>
+                        <a href="#" class="nav-link text-gray-400 hover:text-gold transition-colors" data-page="contacto">Contacto</a>
+                    </nav>
+                </div>
+                
+                <!-- Col 3: Servicios -->
+                <div>
+                    <h5 class="text-white font-semibold tracking-wider uppercase mb-4">Servicios</h5>
+                    <nav class="flex flex-col space-y-3">
+                        <p class="text-gray-400">Novias</p>
+                        <p class="text-gray-400">15 Años</p>
+                        <p class="text-gray-400">Fiestas y Eventos</p>
+                    </nav>
+                </div>
+
+                <!-- Col 4: Redes Sociales -->
+                <div>
+                    <h5 class="text-white font-semibold tracking-wider uppercase mb-4">Seguime</h5>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/mariana.alexander.alta.costura/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gold transition-colors" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="https://wa.me/5492226409625" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gold transition-colors" aria-label="WhatsApp">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@marianaalexanderaltacost?t=8ImlLb4fHbp&_r=1" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gold transition-colors" aria-label="TikTok">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2h-3.3a8 8 0 0 0-1.6-4.9A2 2 0 0 0 12 0v10a2 2 0 0 1-2 2H3a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4.5a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h3.3a8 8 0 0 0 7.2-4.9 2 2 0 0 0 .1-2.1Z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-500 text-sm">
+                    &copy; <span id="current-year"></span> Valeria Alexander Alta Costura. Todos los derechos reservados.
+                </p>
+                <p class="text-gray-600 text-xs mt-2">
+                    Sitio web diseñado y desarrollado con ♥
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- LÓGICA DEL PRELOADER ---
+        // Se ejecuta cuando toda la página (imágenes, etc.) ha cargado
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            // Da tiempo a que la animación de la barra termine
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 2500); // 2.5 segundos
+        });
+
+
+        // Se ejecuta cuando el HTML está listo (más rápido que 'load')
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- LÓGICA DE NAVEGACIÓN "SINGLE PAGE" ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-section');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const menuIconOpen = document.getElementById('menu-icon-open');
+            const menuIconClose = document.getElementById('menu-icon-close');
+
+            function showPage(pageId) {
+                // Ocultar todas las páginas
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // Mostrar la página seleccionada
+                const activePage = document.getElementById(pageId);
+                if (activePage) {
+                    activePage.classList.add('active');
+                }
+
+                // Scroll al inicio de la página
+                window.scrollTo(0, 0);
+
+                // Cerrar menú móvil si está abierto
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    menuIconOpen.classList.remove('hidden');
+                    menuIconClose.classList.add('hidden');
+                    // document.body.style.overflow = 'auto'; // Restaurar scroll - ELIMINADO
+                }
+            }
+            
+            // --- INICIALIZACIÓN DE PÁGINA (FALLBACK) ---
+            // Esta es la corrección clave. Forzamos el estado inicial
+            // por si el CSS `display: none` falla al cargar.
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            const homePage = document.getElementById('inicio');
+            if(homePage) {
+                homePage.classList.add('active');
+            }
+            // --- FIN DE LA CORRECCIÓN ---
+
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+
+            // --- LÓGICA DEL CARRUSEL HERO ---
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.hero-carousel-slide');
+            const slideCount = slides.length;
+
+            if (slideCount > 0) {
+                // Iniciar el primer slide
+                slides[0].classList.add('active-slide');
+
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('active-slide');
+                    currentSlide = (currentSlide + 1) % slideCount;
+                    slides[currentSlide].classList.add('active-slide');
+                }, 5000); // Cambia de slide cada 5 segundos
+            }
+
+            // --- LÓGICA DEL CARRUSEL SERVICIO: NOVIAS ---
+            let currentNoviaSlide = 0;
+            const noviaSlides = document.querySelectorAll('.service-carousel-novias');
+            const noviaSlideCount = noviaSlides.length;
+
+            if (noviaSlideCount > 0) {
+                // Iniciar el primer slide
+                noviaSlides[0].classList.add('active-slide');
+
+                setInterval(() => {
+                    noviaSlides[currentNoviaSlide].classList.remove('active-slide');
+                    currentNoviaSlide = (currentNoviaSlide + 1) % noviaSlideCount;
+                    noviaSlides[currentNoviaSlide].classList.add('active-slide');
+                }, 4000); // Cambia cada 4 segundos
+            }
+
+            // --- LÓGICA DEL CARRUSEL SERVICIO: 15 AÑOS ---
+            let currentQuinceSlide = 0;
+            const quinceSlides = document.querySelectorAll('.service-carousel-quince');
+            const quinceSlideCount = quinceSlides.length;
+
+            if (quinceSlideCount > 0) {
+                // Iniciar el primer slide
+                quinceSlides[0].classList.add('active-slide');
+
+                setInterval(() => {
+                    quinceSlides[currentQuinceSlide].classList.remove('active-slide');
+                    currentQuinceSlide = (currentQuinceSlide + 1) % quinceSlideCount;
+                    quinceSlides[currentQuinceSlide].classList.add('active-slide');
+                }, 4200); // Cambia cada 4.2 segundos (para desfasar)
+            }
+
+            // --- LÓGICA DEL CARRUSEL SERVICIO: FIESTAS ---
+            let currentFiestaSlide = 0;
+            const fiestaSlides = document.querySelectorAll('.service-carousel-fiestas');
+            const fiestaSlideCount = fiestaSlides.length;
+
+            if (fiestaSlideCount > 0) {
+                // Iniciar el primer slide
+                fiestaSlides[0].classList.add('active-slide');
+
+                setInterval(() => {
+                    fiestaSlides[currentFiestaSlide].classList.remove('active-slide');
+                    currentFiestaSlide = (currentFiestaSlide + 1) % fiestaSlideCount;
+                    fiestaSlides[currentFiestaSlide].classList.add('active-slide');
+                }, 4400); // Cambia cada 4.4 segundos (para desfasar)
+            }
+
+            // --- LÓGICA DEL MENÚ MÓVIL ---
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                menuIconOpen.classList.toggle('hidden');
+                menuIconClose.classList.toggle('hidden');
+                
+                // Bloquear scroll del body cuando el menú está abierto - ELIMINADO
+                /*
+                if (mobileMenu.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }
+                */
+            });
+
+            // --- LÓGICA DEL ACORDEÓN (FAQ) ---
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    // Cerrar otros items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                        }
+                    });
+
+                    // Abrir/Cerrar el item clickeado
+                    item.classList.toggle('active');
+                    const answer = item.querySelector('.faq-answer');
+                    if (item.classList.contains('active')) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    } else {
+                        answer.style.maxHeight = null;
+                    }
+                });
+            });
+
+            // --- LÓGICA DE ANIMACIÓN EN SCROLL (REVEAL) ---
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // 10% del elemento debe estar visible
+            });
+
+            revealElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- FORMULARIO DE CONTACTO (SIMULACIÓN) ---
+            function showFormSuccess() {
+                const successMessage = document.getElementById('form-success');
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                    // Aquí podrías resetear el formulario
+                    // document.querySelector('#contacto form').reset();
+                }, 4000); // Ocultar mensaje después de 4 segundos
+            }
+
+            // Conectar la función al 'submit' del formulario
+            const contactForm = document.querySelector('#contacto form');
+            if(contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // Prevenir el envío real
+                    
+                    // --- NUEVA LÓGICA DE WHATSAPP ---
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const message = document.getElementById('message').value;
+                    
+                    const whatsappNumber = '5492226409625';
+
+                    let text = `¡Hola Valeria! Soy ${name}.\n\nQuería hacerte la siguiente consulta:\n${message}\n\nMis datos de contacto son:\nEmail: ${email}`;
+                    
+                    if(phone) {
+                        text += `\nTeléfono: ${phone}`;
+                    }
+
+                    const encodedText = encodeURIComponent(text);
+                    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
+
+                    window.open(whatsappURL, '_blank');
+                    
+                    // --- FIN LÓGICA WHATSAPP ---
+
+                    // Ya no mostramos el mensaje de éxito, se redirige a WhatsApp
+                    // showFormSuccess();
+                });
+            }
+
+            // --- AÑO ACTUAL EN FOOTER ---
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        }); // Fin del DOMContentLoaded
+    </script>
+</body>
+</html>
