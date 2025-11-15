@@ -74,8 +74,8 @@
             visibility: hidden;
         }
         #preloader-logo {
-            width: 80%; /* Aumentado drásticamente */
-            max-width: 600px; /* Límite para pantallas grandes */
+            width: 90%; /* Aumentado drásticamente */
+            max-width: 700px; /* Límite para pantallas grandes */
             height: auto; /* Asegura la proporción */
             margin-bottom: 1.5rem;
         }
@@ -292,8 +292,10 @@
     <header class="relative border-b border-gray-800"> <!-- Añadido 'relative' para posicionar el menú móvil -->
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <!-- Logo -->
-            <a href="#" class="nav-link" data-page="inicio" aria-label="Ir al inicio">
-                <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763235986/logo_sin_fondo_ce5wo6.png" alt="Monograma Mariana Alexander" class="h-16 md:h-24 w-auto"> <!-- Tamaño aumentado de h-14 md:h-20 -->
+            <!-- Añadido flex-1 md:flex-none para centrar en móvil -->
+            <a href="#" class="nav-link flex-1 md:flex-none" data-page="inicio" aria-label="Ir al inicio">
+                <!-- Aumentado a h-28 en móvil, y centrado con mx-auto md:mx-0 -->
+                <img src="https://res.cloudinary.com/dmosaczun/image/upload/v1763235986/logo_sin_fondo_ce5wo6.png" alt="Monograma Mariana Alexander" class="h-28 md:h-24 w-auto mx-auto md:mx-0">
             </a>
 
             <!-- Navegación Desktop -->
@@ -307,11 +309,14 @@
                 <a href="#" class="nav-link text-gray-300 hover:text-gold transition-colors" data-page="contacto">Contacto</a>
             </nav>
             
-            <!-- Botón Menú Móvil -->
-            <button id="mobile-menu-btn" class="md:hidden z-50 border border-gray-600 rounded-md p-1.5 transition-colors focus:border-gold">
-                <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
+            <!-- Contenedor del Botón Menú Móvil para alinear -->
+            <!-- Añadido w-16 para dar espacio y que el flex-1 del logo se centre -->
+            <div class="w-16 md:hidden flex justify-end">
+                <button id="mobile-menu-btn" class="z-50 border border-gray-600 rounded-md p-1.5 transition-colors focus:border-gold">
+                    <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
         </div>
         
         <!-- Navegación Móvil -->
